@@ -4,7 +4,7 @@ import 'package:ats_mobile/utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../models/auth/login_response.dart';
+import '../../models/auth/login_response.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -39,8 +39,7 @@ class _MyProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1F5282),
                   borderRadius: BorderRadius.circular(8),
@@ -53,27 +52,24 @@ class _MyProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _showData('Name:', user.user?.name.toString() ?? ""),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      _showData('Email:', user.user?.email.toString() ?? ""),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      _showData('Phone:', user.user?.phone.toString() ?? "")
-                    ]),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  _showData('Name:', user.user?.name.toString() ?? ""),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _showData('Email:', user.user?.email.toString() ?? ""),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _showData('Phone:', user.user?.phone.toString() ?? "")
+                ]),
               ),
               const SizedBox(
                 height: 30,
               ),
               Container(
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1F5282),
                   borderRadius: BorderRadius.circular(8),
@@ -157,8 +153,7 @@ class _MyProfilePageState extends State<ProfilePage> {
       children: [
         Text(
           label,
-          style: const TextStyle(
-              fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 4,
@@ -174,8 +169,7 @@ class _MyProfilePageState extends State<ProfilePage> {
           ),
           child: Text(
             text,
-            style: const TextStyle(
-                fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
       ],
@@ -206,15 +200,13 @@ class _MyProfilePageState extends State<ProfilePage> {
       false,
     );
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, '/login', ModalRoute.withName('/login'));
+    Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
   }
 
   void _getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      user = LoginResponse.fromJson(
-          jsonDecode((prefs.getString(SharedPreferencesConstants.USER)!)));
+      user = LoginResponse.fromJson(jsonDecode((prefs.getString(SharedPreferencesConstants.USER)!)));
     });
   }
 }

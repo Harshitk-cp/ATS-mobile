@@ -37,7 +37,6 @@ dependencies:
   http: ^0.13.0
   shared_preferences: ^2.0.17
   intl: ^0.17.0
-  pie_chart: ^5.3.2
   file_picker: ^5.3.2
   percent_indicator: ^4.2.3
 

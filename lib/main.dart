@@ -1,14 +1,24 @@
-import 'package:ats_mobile/utility/ui/auth/login/login_page.dart';
-import 'package:ats_mobile/utility/ui/auth/signup/signup_page.dart';
-import 'package:ats_mobile/utility/ui/home/applications_page.dart';
-import 'package:ats_mobile/utility/ui/home/applied_finish.dart';
-import 'package:ats_mobile/utility/ui/home/home_page.dart';
-import 'package:ats_mobile/utility/ui/home/job_details_page.dart';
-import 'package:ats_mobile/utility/ui/home/profile_page.dart';
-import 'package:ats_mobile/utility/ui/landing.dart';
+import 'package:ats_mobile/ui/auth/login/login_page.dart';
+import 'package:ats_mobile/ui/auth/signup/signup_page.dart';
+import 'package:ats_mobile/ui/home/applications_page.dart';
+import 'package:ats_mobile/ui/home/applied_finish.dart';
+import 'package:ats_mobile/ui/home/home_page.dart';
+import 'package:ats_mobile/ui/home/job_details_page.dart';
+import 'package:ats_mobile/ui/home/profile_page.dart';
+import 'package:ats_mobile/ui/landing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ),
+  );
   runApp(const MyApp());
 }
 

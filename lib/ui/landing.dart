@@ -22,11 +22,9 @@ class _LandingState extends State<LandingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loggedIn = (prefs.getBool(SharedPreferencesConstants.LOGGED_IN) ?? false);
     if (loggedIn) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/home', ModalRoute.withName('/home'));
+      Navigator.pushNamedAndRemoveUntil(context, '/home', ModalRoute.withName('/home'));
     } else {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/login', ModalRoute.withName('/login'));
+      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
     }
   }
 

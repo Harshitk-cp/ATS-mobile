@@ -23,8 +23,7 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
   final HttpService httpService = HttpService();
   late ApiResponse _apiResponseAllApplications = ApiResponse();
   late LoginResponse user = LoginResponse();
-  late AllApplicationsResponse applicationListResponse =
-      AllApplicationsResponse();
+  late AllApplicationsResponse applicationListResponse = AllApplicationsResponse();
   late List<Map<String, dynamic>> applicationList = [];
   late Map<String, JobDetailResponse?> jobDetailsMap = {};
 
@@ -57,88 +56,94 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x00032140).withOpacity(0.3),
-                      blurRadius: 10.0,
-                      spreadRadius: 5.0,
-                    ),
-                  ],
-                  color: const Color(0xFAF9F9F7),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    const SizedBox(
-                      width: 25,
-                      child: Divider(
-                        color: Colors.black,
-                        thickness: 3,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    const SizedBox(height: 10),
-                    Center(
-                      child: FutureBuilder<List<Map<String, dynamic>>>(
-                        future: _getAllApplications(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data!.isEmpty) {
-                              return _buildEmptyApplicationsContainer();
-                            } else {
-                              return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  final jobId = snapshot.data![index]['jobId'];
-                                  return FutureBuilder<JobDetailResponse?>(
-                                    future: _getJobDetail(jobId),
-                                    builder: (context, snapshotJob) {
-                                      if (snapshotJob.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const CircularProgressIndicator();
-                                      } else if (snapshotJob.hasError) {
-                                        return const Text(
-                                          'Failed to load application details',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        );
-                                      } else if (snapshotJob.hasData &&
-                                          snapshotJob.data != null) {
-                                        final jobDetail = snapshotJob.data!;
-                                        return _buildApplicationContainer(
-                                          jobDetail: jobDetail,
-                                          applicationData:
-                                              snapshot.data![index],
-                                        );
-                                      } else {
-                                        return const SizedBox();
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                          } else if (snapshot.hasError) {
-                            return const Text(
-                                "Couldn't load your applications");
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              applicationListWidget(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget applicationListWidget() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x00032140).withOpacity(0.3),
+            blurRadius: 10.0,
+            spreadRadius: 5.0,
+          ),
+        ],
+        color: const Color(0xFAF9F9F7),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          const SizedBox(
+            width: 25,
+            child: Divider(
+              color: Colors.black,
+              thickness: 3,
+            ),
+          ),
+          const SizedBox(height: 10),
+          const SizedBox(height: 10),
+          Center(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _getAllApplications(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
+                    return _buildEmptyApplicationsContainer();
+                  } else {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final jobId = snapshot.data![index]['jobId'];
+                        return FutureBuilder<JobDetailResponse?>(
+                          future: _getJobDetail(jobId),
+                          builder: (context, snapshotJob) {
+                            if (snapshotJob.connectionState == ConnectionState.waiting) {
+                              return const SizedBox(
+                                height: 30,
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshotJob.hasError) {
+                              return const Text(
+                                'Failed to load application details',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              );
+                            } else if (snapshotJob.hasData && snapshotJob.data != null) {
+                              final jobDetail = snapshotJob.data!;
+                              return _buildApplicationContainer(
+                                jobDetail: jobDetail,
+                                applicationData: snapshot.data![index],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        );
+                      },
+                    );
+                  }
+                } else if (snapshot.hasError) {
+                  return const Text("Couldn't load your applications");
+                }
+                return const SizedBox(
+                  height: 30,
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -298,8 +303,7 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
             animation: true,
             lineHeight: 20.0,
             animationDuration: 1000,
-            percent: (applicationData['currentRound'] as num) /
-                (jobDetail.data?.noOfRounds as num),
+            percent: (applicationData['currentRound'] as num) / (jobDetail.data?.noOfRounds as num),
             center: Text(
               "${(applicationData['currentRound'] ?? 0) * 100 / (jobDetail.data?.noOfRounds ?? 1)}%",
               style: const TextStyle(
@@ -321,12 +325,10 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final uniqueId = prefs.getString(SharedPreferencesConstants.UNIQUE_ID)!;
       final auth = prefs.getString(SharedPreferencesConstants.TOKEN)!;
-      _apiResponseAllApplications =
-          await httpService.getAllApplications(uniqueId, auth);
+      _apiResponseAllApplications = await httpService.getAllApplications(uniqueId, auth);
 
       setState(() {
-        applicationListResponse =
-            (_apiResponseAllApplications.Data as AllApplicationsResponse);
+        applicationListResponse = (_apiResponseAllApplications.Data as AllApplicationsResponse);
       });
 
       if (applicationListResponse.success == true) {
@@ -354,8 +356,7 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
   Future<JobDetailResponse?> _getJobDetail(jobId) async {
     if (!jobDetailsMap.containsKey(jobId)) {
       final apiResponseJobDetail = await httpService.getJobDetail(jobId);
-      final jobDetailResponse =
-          (apiResponseJobDetail.Data as JobDetailResponse);
+      final jobDetailResponse = (apiResponseJobDetail.Data as JobDetailResponse);
 
       if (jobDetailResponse.success == true) {
         jobDetailsMap[jobId] = jobDetailResponse;

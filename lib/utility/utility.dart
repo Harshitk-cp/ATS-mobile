@@ -32,6 +32,18 @@ class Utility {
         .showSnackBar(snackBarContent);
   }
 
+  static String formatNumberIndianStyle(double number) {
+    if (number >= 10000000) {
+      return '${(number / 10000000).toStringAsFixed(1)}Cr';
+    } else if (number >= 100000) {
+      return '${(number / 100000).toStringAsFixed(1)}L';
+    } else if (number >= 1000) {
+      return '${(number / 1000).toStringAsFixed(1)}k';
+    } else {
+      return number.toStringAsFixed(0);
+    }
+  }
+
   addStringToSharedPreferences(String key, String msg) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, msg);
